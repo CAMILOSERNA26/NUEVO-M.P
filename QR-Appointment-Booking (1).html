@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master Painters Syracuse, NY</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#0F3A46',secondary:'#F4B41A'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background: linear-gradient(135deg, #0F3A46 0%, #1a5268 100%);
+color: white;
+}
+.service-modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.8);
+z-index: 60;
+}
+.service-modal-content {
+background: white;
+width: 90%;
+max-width: 375px;
+margin: 20% auto;
+border-radius: 12px;
+overflow: hidden;
+animation: slideUp 0.3s ease-out;
+}
+.service-images {
+display: flex;
+overflow-x: auto;
+scroll-snap-type: x mandatory;
+-webkit-overflow-scrolling: touch;
+}
+.service-image {
+flex: 0 0 100%;
+scroll-snap-align: start;
+}
+.service-dot {
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background-color: #ddd;
+margin: 0 4px;
+transition: background-color 0.3s;
+}
+.service-dot.active {
+background-color: #F4B41A;
+}
+.main-content {
+padding-top: 60px;
+padding-bottom: 70px;
+}
+.animate-fade-in {
+animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+.btn-hover {
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-hover:hover {
+transform: translateY(-2px);
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+.gallery-item {
+transition: transform 0.3s ease;
+}
+.gallery-item:hover {
+transform: scale(1.02);
+}
+.modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.7);
+z-index: 50;
+overflow: auto;
+}
+.modal-content {
+animation: slideUp 0.3s ease-out;
+}
+@keyframes slideUp {
+from { transform: translateY(50px); opacity: 0; }
+to { transform: translateY(0); opacity: 1; }
+}
+</style>
+</head>
+<body>
+<!-- Nav Bar -->
+<nav class="fixed top-0 w-full bg-primary text-white shadow-md z-40">
+<div class="flex justify-between items-center px-4 py-3">
+<img src="https://static.readdy.ai/image/d9dbeb300326b28d437a8c877efe6c2d/fad5cc55834450f6716c40ce6dd2c4f0.png" alt="Master Painters Logo" class="h-8 w-auto">
+<div class="flex items-center space-x-3">
+<button id="langToggle" class="text-sm px-2 py-1 rounded-full bg-secondary text-primary cursor-pointer">
+EN | ES
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<div class="main-content px-4">
+<!-- Hero Section -->
+<div class="pt-4 pb-6 animate-fade-in">
+<div class="bg-white rounded-lg shadow-md overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=Professional%20interior%20painting%2C%20high%20quality%20finish%2C%20modern%20apartment%20with%20fresh%20paint%2C%20bright%20and%20clean%20walls%2C%20professional%20painting%20service%2C%20high%20resolution%2C%20detailed%20image&width=375&height=200&seq=123&orientation=landscape" alt="Professional Painting" class="w-full h-48 object-cover object-top">
+<div class="p-4">
+<h1 class="text-2xl font-bold text-primary mb-2 english-text">Quality Painting Services</h1>
+<h1 class="text-2xl font-bold text-primary mb-2 spanish-text hidden">Servicios de Pintura de Calidad</h1>
+<p class="text-gray-700 mb-4 english-text">Transform your space with professional painting services from Syracuse's most trusted team.</p>
+<p class="text-gray-700 mb-4 spanish-text hidden">Transforme su espacio con servicios profesionales de pintura del equipo más confiable de Syracuse.</p>
+<button id="scheduleBtn" class="w-full bg-secondary text-primary font-bold py-3 px-4 rounded-button shadow-lg btn-hover flex items-center justify-center">
+<i class="ri-calendar-line ri-lg mr-2 w-6 h-6 flex items-center justify-center"></i>
+<span class="english-text">Schedule Free Estimate</span>
+<span class="spanish-text hidden">Programar Estimación Gratuita</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Services Section -->
+<div class="my-6">
+<h2 class="text-xl font-bold text-white mb-4 english-text">Our Services</h2>
+<h2 class="text-xl font-bold text-white mb-4 spanish-text hidden">Nuestros Servicios</h2>
+<div class="grid grid-cols-3 gap-3 service-grid">
+<div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-3 text-center transform transition-transform duration-300 hover:scale-105 cursor-pointer service-item">
+<div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=icon%2C%203D%20cartoon%2C%20Interior%20house%20painting%2C%20the%20icon%20should%20take%20up%2070%25%20of%20the%20frame%2C%20vibrant%20colors%20with%20soft%20gradients%2C%20minimalist%20design%2C%20smooth%20rounded%20shapes%2C%20subtle%20shading%2C%20no%20outlines%2C%20centered%20composition%2C%20isolated%20on%20white%20background%2C%20playful%20and%20friendly%20aesthetic%2C%20high%20detail%20quality%2C%20clean%20and%20modern%20look%2C%20single%20object%20focus&width=64&height=64&seq=1&orientation=squarish" alt="Interior Painting" class="w-full h-full object-cover">
+</div>
+<p class="text-sm font-medium english-text text-gray-900">Interior</p>
+<p class="text-sm font-medium spanish-text hidden text-gray-900">Interior</p>
+</div>
+<div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-3 text-center transform transition-transform duration-300 hover:scale-105 cursor-pointer service-item">
+<div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=icon%2C%203D%20cartoon%2C%20Exterior%20house%20painting%2C%20the%20icon%20should%20take%20up%2070%25%20of%20the%20frame%2C%20vibrant%20colors%20with%20soft%20gradients%2C%20minimalist%20design%2C%20smooth%20rounded%20shapes%2C%20subtle%20shading%2C%20no%20outlines%2C%20centered%20composition%2C%20isolated%20on%20white%20background%2C%20playful%20and%20friendly%20aesthetic%2C%20high%20detail%20quality%2C%20clean%20and%20modern%20look%2C%20single%20object%20focus&width=64&height=64&seq=2&orientation=squarish" alt="Exterior Painting" class="w-full h-full object-cover">
+</div>
+<p class="text-sm font-medium english-text text-gray-900">Exterior</p>
+<p class="text-sm font-medium spanish-text hidden text-gray-900">Exterior</p>
+</div>
+<div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-3 text-center transform transition-transform duration-300 hover:scale-105 cursor-pointer service-item">
+<div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=icon%2C%203D%20cartoon%2C%20Commercial%20painting%20service%2C%20the%20icon%20should%20take%20up%2070%25%20of%20the%20frame%2C%20vibrant%20colors%20with%20soft%20gradients%2C%20minimalist%20design%2C%20smooth%20rounded%20shapes%2C%20subtle%20shading%2C%20no%20outlines%2C%20centered%20composition%2C%20isolated%20on%20white%20background%2C%20playful%20and%20friendly%20aesthetic%2C%20high%20detail%20quality%2C%20clean%20and%20modern%20look%2C%20single%20object%20focus&width=64&height=64&seq=3&orientation=squarish" alt="Commercial Painting" class="w-full h-full object-cover">
+</div>
+<p class="text-sm font-medium english-text text-gray-900">Commercial</p>
+<p class="text-sm font-medium spanish-text hidden text-gray-900">Comercial</p>
+</div>
+<div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-3 text-center transform transition-transform duration-300 hover:scale-105 cursor-pointer service-item">
+<div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=icon%2C%203D%20cartoon%2C%20Cabinet%20painting%20and%20refinishing%2C%20the%20icon%20should%20take%20up%2070%25%20of%20the%20frame%2C%20vibrant%20colors%20with%20soft%20gradients%2C%20minimalist%20design%2C%20smooth%20rounded%20shapes%2C%20subtle%20shading%2C%20no%20outlines%2C%20centered%20composition%2C%20isolated%20on%20white%20background%2C%20playful%20and%20friendly%20aesthetic%2C%20high%20detail%20quality%2C%20clean%20and%20modern%20look%2C%20single%20object%20focus&width=64&height=64&seq=4&orientation=squarish" alt="Cabinet Refinishing" class="w-full h-full object-cover">
+</div>
+<p class="text-sm font-medium english-text text-gray-900">Cabinets</p>
+<p class="text-sm font-medium spanish-text hidden text-gray-900">Gabinetes</p>
+</div>
+<div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-3 text-center transform transition-transform duration-300 hover:scale-105 cursor-pointer service-item">
+<div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=icon%2C%203D%20cartoon%2C%20Deck%20and%20fence%20staining%2C%20the%20icon%20should%20take%20up%2070%25%20of%20the%20frame%2C%20vibrant%20colors%20with%20soft%20gradients%2C%20minimalist%20design%2C%20smooth%20rounded%20shapes%2C%20subtle%20shading%2C%20no%20outlines%2C%20centered%20composition%2C%20isolated%20on%20white%20background%2C%20playful%20and%20friendly%20aesthetic%2C%20high%20detail%20quality%2C%20clean%20and%20modern%20look%2C%20single%20object%20focus&width=64&height=64&seq=5&orientation=squarish" alt="Deck Staining" class="w-full h-full object-cover">
+</div>
+<p class="text-sm font-medium english-text text-gray-900">Deck & Fence</p>
+<p class="text-sm font-medium spanish-text hidden text-gray-900">Terraza & Cerca</p>
+</div>
+<div class="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-3 text-center transform transition-transform duration-300 hover:scale-105 cursor-pointer service-item">
+<div class="w-16 h-16 mx-auto mb-2 rounded-full bg-gray-100 overflow-hidden">
+<img src="https://readdy.ai/api/search-image?query=icon%2C%203D%20cartoon%2C%20Color%20consultation%20and%20design%2C%20the%20icon%20should%20take%20up%2070%25%20of%20the%20frame%2C%20vibrant%20colors%20with%20soft%20gradients%2C%20minimalist%20design%2C%20smooth%20rounded%20shapes%2C%20subtle%20shading%2C%20no%20outlines%2C%20centered%20composition%2C%20isolated%20on%20white%20background%2C%20playful%20and%20friendly%20aesthetic%2C%20high%20detail%20quality%2C%20clean%20and%20modern%20look%2C%20single%20object%20focus&width=64&height=64&seq=6&orientation=squarish" alt="Color Consultation" class="w-full h-full object-cover">
+</div>
+<p class="text-sm font-medium english-text text-gray-900">Color Design</p>
+<p class="text-sm font-medium spanish-text hidden text-gray-900">Diseño de Color</p>
+</div>
+</div>
+</div>
+<!-- About Us Section -->
+<div class="my-6 bg-white rounded-lg shadow-md p-4">
+<h2 class="text-xl font-bold text-primary mb-3 english-text">About Master Painters</h2>
+<h2 class="text-xl font-bold text-primary mb-3 spanish-text hidden">Sobre Master Painters</h2>
+<p class="text-gray-700 mb-4 english-text">With extensive experience serving Syracuse and surrounding areas, Master Painters delivers exceptional quality and craftsmanship for all your painting needs. We take pride in our attention to detail and commitment to customer satisfaction.</p>
+<p class="text-gray-700 mb-4 spanish-text hidden">Con amplia experiencia sirviendo a Syracuse y áreas circundantes, Master Painters ofrece calidad excepcional y artesanía para todas sus necesidades de pintura. Nos enorgullecemos de nuestra atención al detalle y compromiso con la satisfacción del cliente.</p>
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 flex items-center justify-center text-secondary">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="ml-2 text-gray-700 english-text">High-quality materials and professional finishes</p>
+<p class="ml-2 text-gray-700 spanish-text hidden">Materiales de alta calidad y acabados profesionales</p>
+</div>
+<div class="flex items-center mb-3">
+<div class="w-8 h-8 flex items-center justify-center text-secondary">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="ml-2 text-gray-700 english-text">Premium materials and finishes</p>
+<p class="ml-2 text-gray-700 spanish-text hidden">Materiales y acabados premium</p>
+</div>
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center text-secondary">
+<i class="ri-check-line ri-lg"></i>
+</div>
+<p class="ml-2 text-gray-700 english-text">5-year workmanship warranty</p>
+<p class="ml-2 text-gray-700 spanish-text hidden">Garantía de mano de obra de 5 años</p>
+</div>
+</div>
+<!-- Recent Work Gallery -->
+<div class="my-6">
+<h2 class="text-xl font-bold text-white mb-4 english-text">Our Recent Work</h2>
+<h2 class="text-xl font-bold text-white mb-4 spanish-text hidden">Nuestro Trabajo Reciente</h2>
+<div class="grid grid-cols-2 gap-3">
+<div class="gallery-item rounded-lg overflow-hidden shadow">
+<img src="https://readdy.ai/api/search-image?query=Professional%20interior%20painting%2C%20modern%20living%20room%20with%20freshly%20painted%20light%20blue%20walls%2C%20bright%20and%20airy%20space%2C%20high%20quality%20finish%2C%20natural%20lighting%2C%20contemporary%20furniture%2C%20professional%20painting%20service%20result&width=180&height=180&seq=7&orientation=squarish" alt="Interior Painting" class="w-full h-full object-cover">
+</div>
+<div class="gallery-item rounded-lg overflow-hidden shadow">
+<img src="https://readdy.ai/api/search-image?query=Professional%20exterior%20house%20painting%2C%20freshly%20painted%20modern%20home%20exterior%20in%20white%20and%20gray%2C%20clean%20lines%2C%20professional%20finish%2C%20bright%20daylight%2C%20well-maintained%20lawn%2C%20professional%20painting%20service%20result&width=180&height=180&seq=8&orientation=squarish" alt="Exterior Painting" class="w-full h-full object-cover">
+</div>
+<div class="gallery-item rounded-lg overflow-hidden shadow">
+<img src="https://readdy.ai/api/search-image?query=Professional%20kitchen%20cabinet%20painting%2C%20modern%20kitchen%20with%20freshly%20painted%20white%20cabinets%2C%20clean%20finish%2C%20bright%20space%2C%20marble%20countertops%2C%20professional%20painting%20service%20result&width=180&height=180&seq=9&orientation=squarish" alt="Cabinet Painting" class="w-full h-full object-cover">
+</div>
+<div class="gallery-item rounded-lg overflow-hidden shadow">
+<img src="https://readdy.ai/api/search-image?query=Professional%20commercial%20painting%2C%20office%20space%20with%20freshly%20painted%20walls%20in%20modern%20colors%2C%20clean%20lines%2C%20professional%20finish%2C%20contemporary%20office%20furniture%2C%20professional%20painting%20service%20result&width=180&height=180&seq=10&orientation=squarish" alt="Commercial Painting" class="w-full h-full object-cover">
+</div>
+</div>
+</div>
+<!-- Trusted Partners -->
+<div class="my-6 bg-white rounded-lg shadow-md p-4">
+<h2 class="text-xl font-bold text-primary mb-3 english-text">Our Trusted Partners</h2>
+<h2 class="text-xl font-bold text-primary mb-3 spanish-text hidden">Nuestros Socios de Confianza</h2>
+<p class="text-gray-700 mb-4 english-text">We use only premium quality materials from industry-leading suppliers.</p>
+<p class="text-gray-700 mb-4 spanish-text hidden">Utilizamos solo materiales de primera calidad de proveedores líderes en la industria.</p>
+<div class="flex justify-between items-center">
+<div class="w-1/3 p-2">
+<img src="https://readdy.ai/api/search-image?query=Sherwin-Williams%20logo%2C%20professional%2C%20high%20quality%2C%20isolated%20on%20white%20background%2C%20centered%20composition%2C%20clean%20and%20clear%2C%20corporate%20branding&width=100&height=50&seq=11&orientation=landscape" alt="Sherwin-Williams" class="w-full h-auto">
+</div>
+<div class="w-1/3 p-2">
+<img src="https://readdy.ai/api/search-image?query=Home%20Depot%20logo%2C%20professional%2C%20high%20quality%2C%20isolated%20on%20white%20background%2C%20centered%20composition%2C%20clean%20and%20clear%2C%20corporate%20branding&width=100&height=50&seq=12&orientation=landscape" alt="Home Depot" class="w-full h-auto">
+</div>
+<div class="w-1/3 p-2">
+<img src="https://readdy.ai/api/search-image?query=Lowes%20logo%2C%20professional%2C%20high%20quality%2C%20isolated%20on%20white%20background%2C%20centered%20composition%2C%20clean%20and%20clear%2C%20corporate%20branding&width=100&height=50&seq=13&orientation=landscape" alt="Lowe's" class="w-full h-auto">
+</div>
+</div>
+</div>
+<!-- Master Painters Logo -->
+<div class="my-6 text-center">
+<img src="https://static.readdy.ai/image/d9dbeb300326b28d437a8c877efe6c2d/fad5cc55834450f6716c40ce6dd2c4f0.png" alt="Master Painters Logo" class="h-24 w-auto mx-auto mb-2">
+<p class="text-white english-text">Professional Painting Services</p>
+<p class="text-white spanish-text hidden">Servicios Profesionales de Pintura</p>
+</div>
+<!-- Testimonials -->
+<div class="my-6">
+<h2 class="text-xl font-bold text-primary mb-4 english-text">What Our Clients Say</h2>
+<h2 class="text-xl font-bold text-primary mb-4 spanish-text hidden">Lo Que Dicen Nuestros Clientes</h2>
+<div class="bg-white rounded-lg shadow-md p-4 mb-3">
+<div class="flex items-center mb-2">
+<div class="flex text-yellow-400">
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+</div>
+<span class="ml-2 text-sm text-gray-600">04/12/2025</span>
+</div>
+<p class="text-gray-700 mb-2 english-text">"Master Painters transformed our living room completely. The team was professional, on time, and left everything spotless. Highly recommend!"</p>
+<p class="text-gray-700 mb-2 spanish-text hidden">"Master Painters transformó completamente nuestra sala de estar. El equipo fue profesional, puntual y dejó todo impecable. ¡Altamente recomendado!"</p>
+<p class="text-sm font-medium english-text">- Rebecca Johnson, Syracuse</p>
+<p class="text-sm font-medium spanish-text hidden">- Rebecca Johnson, Syracuse</p>
+</div>
+<div class="bg-white rounded-lg shadow-md p-4">
+<div class="flex items-center mb-2">
+<div class="flex text-yellow-400">
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+<i class="ri-star-fill ri-sm"></i>
+</div>
+<span class="ml-2 text-sm text-gray-600">03/28/2025</span>
+</div>
+<p class="text-gray-700 mb-2 english-text">"We hired Master Painters for our office renovation. The color consultation was invaluable and the finished result exceeded our expectations."</p>
+<p class="text-gray-700 mb-2 spanish-text hidden">"Contratamos a Master Painters para la renovación de nuestra oficina. La consulta de color fue invaluable y el resultado final superó nuestras expectativas."</p>
+<p class="text-sm font-medium english-text">- Michael Thompson, Dewitt Business Center</p>
+<p class="text-sm font-medium spanish-text hidden">- Michael Thompson, Dewitt Business Center</p>
+</div>
+</div>
+</div>
+<!-- Tab Bar -->
+<div class="fixed bottom-0 w-full bg-white shadow-lg border-t z-40">
+<div class="grid grid-cols-4 h-14">
+<a href="#" class="flex flex-col items-center justify-center text-primary">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-home-4-line"></i>
+</div>
+<span class="text-xs mt-1 english-text">Home</span>
+<span class="text-xs mt-1 spanish-text hidden">Inicio</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center text-gray-500">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-paint-brush-line"></i>
+</div>
+<span class="text-xs mt-1 english-text">Services</span>
+<span class="text-xs mt-1 spanish-text hidden">Servicios</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center text-gray-500">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-gallery-line"></i>
+</div>
+<span class="text-xs mt-1 english-text">Gallery</span>
+<span class="text-xs mt-1 spanish-text hidden">Galería</span>
+</a>
+<a href="#" class="flex flex-col items-center justify-center text-gray-500">
+<div class="w-6 h-6 flex items-center justify-center">
+<i class="ri-phone-line"></i>
+</div>
+<span class="text-xs mt-1 english-text">Contact</span>
+<span class="text-xs mt-1 spanish-text hidden">Contacto</span>
+</a>
+</div>
+</div>
+<!-- Estimate Form Modal -->
+<div id="estimateModal" class="modal">
+<div class="modal-content bg-white w-[90%] mx-auto mt-16 rounded-lg shadow-xl p-5">
+<div class="flex justify-between items-center mb-4">
+<h3 class="text-xl font-bold text-primary english-text">Schedule Your Free Estimate</h3>
+<h3 class="text-xl font-bold text-primary spanish-text hidden">Programe Su Estimación Gratuita</h3>
+<button id="closeModal" class="text-gray-500 hover:text-gray-700">
+<i class="ri-close-line ri-lg"></i>
+</button>
+</div>
+<form id="estimateForm">
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2 english-text" for="name">Full Name</label>
+<label class="block text-gray-700 text-sm font-medium mb-2 spanish-text hidden" for="name">Nombre Completo</label>
+<input type="text" id="name" class="w-full px-3 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-secondary" required>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2 english-text" for="phone">Phone Number</label>
+<label class="block text-gray-700 text-sm font-medium mb-2 spanish-text hidden" for="phone">Número de Teléfono</label>
+<input type="tel" id="phone" class="w-full px-3 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-secondary" required>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2 english-text" for="email">Email Address</label>
+<label class="block text-gray-700 text-sm font-medium mb-2 spanish-text hidden" for="email">Correo Electrónico</label>
+<input type="email" id="email" class="w-full px-3 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-secondary" required>
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2 english-text" for="social">Social Media (Optional)</label>
+<label class="block text-gray-700 text-sm font-medium mb-2 spanish-text hidden" for="social">Redes Sociales (Opcional)</label>
+<input type="text" id="social" class="w-full px-3 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-secondary">
+</div>
+<div class="mb-4">
+<label class="block text-gray-700 text-sm font-medium mb-2 english-text" for="description">Project Description</label>
+<label class="block text-gray-700 text-sm font-medium mb-2 spanish-text hidden" for="description">Descripción del Proyecto</label>
+<textarea id="description" rows="4" class="w-full px-3 py-2 border border-gray-300 rounded-button focus:outline-none focus:ring-2 focus:ring-secondary" required></textarea>
+</div>
+<div class="mb-5">
+<p class="block text-gray-700 text-sm font-medium mb-2 english-text">Preferred Contact Method</p>
+<p class="block text-gray-700 text-sm font-medium mb-2 spanish-text hidden">Método de Contacto Preferido</p>
+<div class="flex space-x-4">
+<label class="flex items-center">
+<input type="radio" name="contactMethod" value="phone" class="mr-2" checked>
+<span class="english-text">Phone</span>
+<span class="spanish-text hidden">Teléfono</span>
+</label>
+<label class="flex items-center">
+<input type="radio" name="contactMethod" value="email" class="mr-2">
+<span class="english-text">Email</span>
+<span class="spanish-text hidden">Correo</span>
+</label>
+<label class="flex items-center">
+<input type="radio" name="contactMethod" value="text" class="mr-2">
+<span class="english-text">Text</span>
+<span class="spanish-text hidden">Texto</span>
+</label>
+</div>
+</div>
+<button type="submit" class="w-full bg-secondary text-primary font-bold py-3 px-4 rounded-button shadow btn-hover english-text">Submit Request</button>
+<button type="submit" class="w-full bg-secondary text-primary font-bold py-3 px-4 rounded-button shadow btn-hover spanish-text hidden">Enviar Solicitud</button>
+</form>
+</div>
+</div>
+<!-- Success Modal -->
+<div id="successModal" class="modal">
+<div class="modal-content bg-white w-[90%] mx-auto mt-24 rounded-lg shadow-xl p-5 text-center">
+<div class="text-green-500 mb-3">
+<i class="ri-check-line ri-3x"></i>
+</div>
+<h3 class="text-xl font-bold text-primary mb-3 english-text">Thank You!</h3>
+<h3 class="text-xl font-bold text-primary mb-3 spanish-text hidden">¡Gracias!</h3>
+<p class="text-gray-700 mb-5 english-text">Your estimate request has been submitted successfully. We'll contact you within 24 hours to schedule your free estimate.</p>
+<p class="text-gray-700 mb-5 spanish-text hidden">Su solicitud de estimación ha sido enviada con éxito. Nos pondremos en contacto con usted dentro de las 24 horas para programar su estimación gratuita.</p>
+<button id="closeSuccessModal" class="bg-secondary text-primary font-bold py-2 px-6 rounded-button shadow btn-hover english-text">Close</button>
+<button id="closeSuccessModal" class="bg-secondary text-primary font-bold py-2 px-6 rounded-button shadow btn-hover spanish-text hidden">Cerrar</button>
+</div>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+const scheduleBtn = document.getElementById('scheduleBtn');
+const estimateModal = document.getElementById('estimateModal');
+const closeModal = document.getElementById('closeModal');
+const estimateForm = document.getElementById('estimateForm');
+const successModal = document.getElementById('successModal');
+const closeSuccessModal = document.getElementById('closeSuccessModal');
+scheduleBtn.addEventListener('click', function() {
+estimateModal.style.display = 'block';
+document.body.style.overflow = 'hidden';
+});
+closeModal.addEventListener('click', function() {
+estimateModal.style.display = 'none';
+document.body.style.overflow = 'auto';
+});
+estimateForm.addEventListener('submit', function(e) {
+e.preventDefault();
+estimateModal.style.display = 'none';
+successModal.style.display = 'block';
+});
+closeSuccessModal.addEventListener('click', function() {
+successModal.style.display = 'none';
+document.body.style.overflow = 'auto';
+});
+window.addEventListener('click', function(e) {
+if (e.target === estimateModal) {
+estimateModal.style.display = 'none';
+document.body.style.overflow = 'auto';
+}
+if (e.target === successModal) {
+successModal.style.display = 'none';
+document.body.style.overflow = 'auto';
+}
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+const langToggle = document.getElementById('langToggle');
+const englishTexts = document.querySelectorAll('.english-text');
+const spanishTexts = document.querySelectorAll('.spanish-text');
+let currentLang = 'en';
+langToggle.addEventListener('click', function() {
+if (currentLang === 'en') {
+// Switch to Spanish
+englishTexts.forEach(el => el.classList.add('hidden'));
+spanishTexts.forEach(el => el.classList.remove('hidden'));
+langToggle.textContent = 'ES | EN';
+currentLang = 'es';
+} else {
+// Switch to English
+spanishTexts.forEach(el => el.classList.add('hidden'));
+englishTexts.forEach(el => el.classList.remove('hidden'));
+langToggle.textContent = 'EN | ES';
+currentLang = 'en';
+}
+});
+});
+</script>
+<!-- Service Modal -->
+<div id="serviceModal" class="service-modal">
+<div class="service-modal-content">
+<div class="relative">
+<div class="absolute top-4 right-4 z-10">
+<button id="closeServiceModal" class="bg-white/80 rounded-full p-2">
+<i class="ri-close-line text-primary"></i>
+</button>
+</div>
+<div class="service-images" id="serviceImages">
+<!-- Images will be dynamically inserted here -->
+</div>
+<div class="flex justify-center space-x-2 py-4" id="serviceDots">
+<!-- Dots will be dynamically inserted here -->
+</div>
+</div>
+</div>
+</div>
+<script>
+// Service Modal Logic
+document.addEventListener('DOMContentLoaded', function() {
+const serviceItems = document.querySelectorAll('.service-item');
+const serviceModal = document.getElementById('serviceModal');
+const closeServiceModal = document.getElementById('closeServiceModal');
+const serviceImages = document.getElementById('serviceImages');
+const serviceDots = document.getElementById('serviceDots');
+const serviceGallery = {
+'Interior': [
+'Professional interior painting, modern living room with freshly painted walls, bright and airy space, high quality finish, natural lighting&width=375&height=250&seq=21',
+'Interior house painting, contemporary bedroom with accent wall, clean lines, professional finish&width=375&height=250&seq=22',
+'Modern interior painting, minimalist dining room, perfect walls, expert finish&width=375&height=250&seq=23'
+],
+'Exterior': [
+'Professional exterior house painting, modern home exterior, fresh paint job, clean lines&width=375&height=250&seq=24',
+'Exterior painting, contemporary house design, perfect finish, professional result&width=375&height=250&seq=25',
+'Modern house exterior painting, beautiful facade, expert finish, clean look&width=375&height=250&seq=26'
+],
+'Commercial': [
+'Professional commercial painting, modern office space, clean walls, business environment&width=375&height=250&seq=27',
+'Commercial building painting, professional finish, business center, perfect result&width=375&height=250&seq=28',
+'Modern commercial space painting, retail store, expert finish, professional look&width=375&height=250&seq=29'
+],
+'Cabinets': [
+'Professional cabinet painting, modern kitchen cabinets, perfect finish, luxury look&width=375&height=250&seq=30',
+'Kitchen cabinet painting, contemporary design, expert finish, clean result&width=375&height=250&seq=31',
+'Modern cabinet refinishing, beautiful kitchen, professional finish&width=375&height=250&seq=32'
+],
+'Deck & Fence': [
+'Professional deck staining, modern outdoor space, perfect finish, clean look&width=375&height=250&seq=33',
+'Deck and fence painting, contemporary design, expert finish, beautiful result&width=375&height=250&seq=34',
+'Modern deck refinishing, outdoor living space, professional finish&width=375&height=250&seq=35'
+],
+'Color Design': [
+'Professional color consultation, modern interior design, color schemes, expert advice&width=375&height=250&seq=36',
+'Color design service, contemporary space, professional color selection&width=375&height=250&seq=37',
+'Modern color planning, interior design, expert color matching&width=375&height=250&seq=38'
+]
+};
+serviceItems.forEach((item, index) => {
+item.addEventListener('click', () => {
+const serviceName = item.querySelector('p').textContent.trim();
+const images = serviceGallery[serviceName];
+serviceImages.innerHTML = '';
+serviceDots.innerHTML = '';
+images.forEach((image, idx) => {
+const img = document.createElement('img');
+img.src = `https://readdy.ai/api/search-image?query=${image}`;
+img.className = 'service-image w-full h-64 object-cover';
+serviceImages.appendChild(img);
+const dot = document.createElement('div');
+dot.className = `service-dot ${idx === 0 ? 'active' : ''}`;
+serviceDots.appendChild(dot);
+});
+serviceModal.style.display = 'block';
+document.body.style.overflow = 'hidden';
+});
+});
+closeServiceModal.addEventListener('click', () => {
+serviceModal.style.display = 'none';
+document.body.style.overflow = 'auto';
+});
+serviceImages.addEventListener('scroll', () => {
+const scrollPosition = serviceImages.scrollLeft;
+const imageWidth = serviceImages.offsetWidth;
+const activeIndex = Math.round(scrollPosition / imageWidth);
+document.querySelectorAll('.service-dot').forEach((dot, index) => {
+dot.classList.toggle('active', index === activeIndex);
+});
+});
+});
+</script>
+</body>
+</html>

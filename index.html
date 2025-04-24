@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Master Painters Syracuse, NY</title>
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #0F3A46 0%, #1a5268 100%);
+      color: white;
+    }
+    .english-text { display: block; }
+    .spanish-text { display: none; }
+    .main-content { padding-top: 60px; padding-bottom: 70px; }
+  </style>
+</head>
+<body>
+  <nav class="fixed top-0 w-full bg-[#0F3A46] text-white shadow-md z-40">
+    <div class="flex justify-between items-center px-4 py-3">
+      <div class="text-xl font-bold">Master Painters</div>
+      <button id="langToggle" class="text-sm px-2 py-1 rounded-full bg-[#F4B41A] text-[#0F3A46]">EN | ES</button>
+    </div>
+  </nav>
+
+  <div class="main-content px-4">
+    <section class="bg-white rounded-lg shadow-md p-4 text-black">
+      <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c" alt="Hero" class="w-full h-48 object-cover rounded mb-4">
+      <h1 class="text-2xl font-bold text-[#0F3A46] mb-2 english-text">Quality Painting Services</h1>
+      <h1 class="text-2xl font-bold text-[#0F3A46] mb-2 spanish-text">Servicios de Pintura de Calidad</h1>
+      <p class="mb-4 english-text">Transform your space with professional painting services from Syracuse's most trusted team.</p>
+      <p class="mb-4 spanish-text">Transforme su espacio con servicios profesionales de pintura del equipo más confiable de Syracuse.</p>
+      <button class="w-full bg-[#F4B41A] text-[#0F3A46] font-bold py-3 px-4 rounded">Schedule Free Estimate</button>
+    </section>
+
+    <section class="my-6">
+      <h2 class="text-xl font-bold text-white mb-4 english-text">Our Services</h2>
+      <h2 class="text-xl font-bold text-white mb-4 spanish-text">Nuestros Servicios</h2>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-white text-black rounded p-3 text-center">
+          <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be" alt="Interior Painting" class="w-full h-32 object-cover rounded mb-2">
+          Interior
+        </div>
+        <div class="bg-white text-black rounded p-3 text-center">
+          <img src="https://images.unsplash.com/photo-1604014238631-e2c9e9dc88e0" alt="Exterior Painting" class="w-full h-32 object-cover rounded mb-2">
+          Exterior
+        </div>
+        <div class="bg-white text-black rounded p-3 text-center">
+          <img src="https://images.unsplash.com/photo-1589820296150-3c2cc6b2ce98" alt="Commercial" class="w-full h-32 object-cover rounded mb-2">
+          Commercial
+        </div>
+        <div class="bg-white text-black rounded p-3 text-center">
+          <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be" alt="Cabinets" class="w-full h-32 object-cover rounded mb-2">
+          Cabinets
+        </div>
+        <div class="bg-white text-black rounded p-3 text-center">
+          <img src="https://images.unsplash.com/photo-1621372634682-2b2b7ac2a4e0" alt="Deck" class="w-full h-32 object-cover rounded mb-2">
+          Deck & Fence
+        </div>
+        <div class="bg-white text-black rounded p-3 text-center">
+          <img src="https://images.unsplash.com/photo-1616627989399-cf3a2770b9bb" alt="Color Design" class="w-full h-32 object-cover rounded mb-2">
+          Color Design
+        </div>
+      </div>
+    </section>
+
+    <section class="my-6 bg-white rounded-lg shadow-md p-4 text-black">
+      <h2 class="text-xl font-bold text-[#0F3A46] mb-3 english-text">About Master Painters</h2>
+      <h2 class="text-xl font-bold text-[#0F3A46] mb-3 spanish-text">Sobre Master Painters</h2>
+      <p class="mb-4 english-text">We deliver exceptional quality and craftsmanship. Customer satisfaction is our top priority.</p>
+      <p class="mb-4 spanish-text">Ofrecemos calidad y artesanía excepcionales. La satisfacción del cliente es nuestra prioridad.</p>
+    </section>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const langToggle = document.getElementById('langToggle');
+      const englishTexts = document.querySelectorAll('.english-text');
+      const spanishTexts = document.querySelectorAll('.spanish-text');
+      let currentLang = 'en';
+      langToggle.addEventListener('click', function () {
+        if (currentLang === 'en') {
+          englishTexts.forEach(el => el.style.display = 'none');
+          spanishTexts.forEach(el => el.style.display = 'block');
+          langToggle.textContent = 'ES | EN';
+          currentLang = 'es';
+        } else {
+          spanishTexts.forEach(el => el.style.display = 'none');
+          englishTexts.forEach(el => el.style.display = 'block');
+          langToggle.textContent = 'EN | ES';
+          currentLang = 'en';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
